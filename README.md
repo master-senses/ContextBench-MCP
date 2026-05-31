@@ -112,11 +112,10 @@ The interesting result to publish: *"index-only + lazy schema reduced prompt tok
 ```
 ContextBench-MCP/
 ├── fixtures/           # MCP tool surfaces per server (raw JSON)
-├── strategies/         # json_pretty | json_minified | compressed | toon | progressive
 ├── prompts/            # Selection prompts + gold labels
-├── runner/             # Agent loop: present context → collect tool pick
-├── metrics/            # pass@1, pass@3, token counting, confusion matrix
-└── report/             # Pareto charts + comparison tables
+├── scripts/            # capture_fixture, run_selection (LiteLLM harness)
+├── results/            # Eval output JSON (gitignored)
+└── report/             # Pareto charts + comparison tables (planned)
 ```
 
 ### Out of scope for v1

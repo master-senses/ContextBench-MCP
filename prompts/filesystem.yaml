@@ -1,0 +1,62 @@
+# Tool-selection prompts for the filesystem MCP fixture.
+# gold_tool must match a name in fixtures/filesystem.json.
+
+prompts:
+  - id: fs-search-glob
+    prompt: Find every file under the sandbox whose name ends with .json.
+    gold_tool: search_files
+
+  - id: fs-list-dir
+    prompt: Show me what's inside the notes folder.
+    gold_tool: list_directory
+
+  - id: fs-read-text
+    prompt: Open readme.txt and return its full text contents.
+    gold_tool: read_text_file
+    acceptable_alternatives: [read_file]
+
+  - id: fs-create-dir
+    prompt: Make a new directory called exports at the sandbox root.
+    gold_tool: create_directory
+
+  - id: fs-move-file
+    prompt: Move draft.md into the archive folder and rename it to draft-final.md.
+    gold_tool: move_file
+
+  - id: fs-file-info
+    prompt: I need metadata for config.yaml — size, type, and modified time.
+    gold_tool: get_file_info
+
+  - id: fs-dir-tree
+    prompt: Give me a recursive tree view of the whole sandbox.
+    gold_tool: directory_tree
+
+  - id: fs-write-file
+    prompt: Create output/summary.txt and write "done" into it.
+    gold_tool: write_file
+
+  - id: fs-edit-file
+    prompt: In config.yaml, change the port value from 8080 to 3000 without rewriting the whole file.
+    gold_tool: edit_file
+
+  - id: fs-allowed-dirs
+    prompt: Which filesystem paths are you allowed to touch?
+    gold_tool: list_allowed_directories
+
+  - id: fs-list-with-sizes
+    prompt: List the data directory and include each entry's size.
+    gold_tool: list_directory_with_sizes
+    acceptable_alternatives: [list_directory]
+
+  - id: fs-read-multiple
+    prompt: Read header.txt and footer.txt in one shot.
+    gold_tool: read_multiple_files
+
+  - id: fs-read-media
+    prompt: Load logo.png so I can inspect the image bytes.
+    gold_tool: read_media_file
+
+  - id: fs-ambiguous-changes
+    prompt: I need to see what changed in the repo lately — what's different on disk?
+    gold_tool: search_files
+    acceptable_alternatives: [list_directory, directory_tree]
