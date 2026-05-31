@@ -2,6 +2,8 @@
 
 Benchmark harness measuring how **MCP tool schema serialization** affects **agent tool-selection accuracy** and **token cost**.
 
+# UPDATE: I JUST REALISED THAT WHEN I PASS IN TOOLS TO THE AGENT IT RESERIALISES IT, SO THIS CONCEPT DOES NOT WORK. HAHA. YOU LIVE AND YOU LEARN!
+
 Existing benchmarks like [MCPMark](https://github.com/eval-sys/mcpmark) and [MCP-Bench](https://github.com/Accenture/mcp-bench) ask: *can an agent complete multi-step MCP workflows?*
 
 ContextBench-MCP asks a narrower, complementary question:
