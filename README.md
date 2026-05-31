@@ -6,7 +6,7 @@ Existing benchmarks like [MCPMark](https://github.com/eval-sys/mcpmark) and [MCP
 
 ContextBench-MCP asks a narrower, complementary question:
 
-> **Given the same tool registry and the same user intent, does schema encoding change which tool the agent picks — and at what token cost?**
+> **Given the same MCP tools and the same user intent, does schema encoding change which tool the agent picks — and at what token cost?**
 
 ## Core hypothesis
 
@@ -21,23 +21,23 @@ Tool schemas are a hidden tax on agent context. Serialization strategy (JSON, TO
 Each benchmark case is:
 
 ```
-(registry, encoding strategy, user prompt) → agent picks a tool → verify correct tool
+(fixture, encoding strategy, user prompt) → agent picks a tool → verify correct tool
 ```
 
 Example: *"User wants to open a pull request on repo X"* → expect `create_pull_request`, not `list_issues`.
 
-Optional **phase 2**: arg-filling after correct tool selection (same registry, same encoding).
+Optional **phase 2**: arg-filling after correct tool selection (same fixture, same encoding).
 
 End-to-end dev tasks (commit, fetch URL, write files) are **out of scope for v1** — that's MCPMark territory.
 
-### Fixtures (tool registries)
+### Fixtures
 
 Real MCP server tool surfaces, serialized from the same source:
 
 
 | Fixture                                         | Why                                                  |
 | ----------------------------------------------- | ---------------------------------------------------- |
-| **GitHub MCP**                                  | ~~80 tools, known token bloat (~~20K+ schema tokens) |
+| **GitHub MCP**                                  | ~80 tools, known token bloat (~20K+ schema tokens) |
 | **Filesystem MCP**                              | Smaller, baseline comparison                         |
 | **Fetch / Git MCP**                             | Medium-sized, mixed read/action tool names           |
 
@@ -54,7 +54,7 @@ Same tools, different presentation. Strategies fall into three layers (combinabl
 2. **JSON (minified)** — full schemas, no insignificant whitespace (`separators=(",", ":")`)
 3. **TOON** — full schemas encoded as [TOON](https://github.com/toon-format/toon)
 
-Pretty vs minified JSON is a controlled experiment: **identical fields and descriptions**, only whitespace differs. Tokenizers often charge heavily for newlines and indentation on large registries — this isolates that effect before comparing TOON or compression.
+Pretty vs minified JSON is a controlled experiment: **identical fields and descriptions**, only whitespace differs. Tokenizers often charge heavily for newlines and indentation on large tool sets — this isolates that effect before comparing TOON or compression.
 
 **Layer 2 — semantic compression (still JSON unless noted)**
 
@@ -73,7 +73,7 @@ Natural-language intents mapped to a gold-standard tool per fixture:
 
 - Unambiguous: *"Create a new branch called feature-x"*
 - Ambiguous (harder): *"I need to see what changed in the repo lately"*
-- Distractor-heavy: registry includes 3 similar tools (e.g. `create_pr`, `create_issue`, `create_branch`)
+- Distractor-heavy: fixture includes 3 similar tools (e.g. `create_pr`, `create_issue`, `create_branch`)
 
 Each prompt includes: `prompt`, `fixture`, `gold_tool`, `acceptable_alternatives` (optional).
 
@@ -111,7 +111,7 @@ The interesting result to publish: *"index-only + lazy schema reduced prompt tok
 
 ```
 ContextBench-MCP/
-├── fixtures/           # Tool registries per MCP server (raw JSON)
+├── fixtures/           # MCP tool surfaces per server (raw JSON)
 ├── strategies/         # json_pretty | json_minified | compressed | toon | progressive
 ├── prompts/            # Selection prompts + gold labels
 ├── runner/             # Agent loop: present context → collect tool pick
@@ -130,7 +130,7 @@ ContextBench-MCP/
 
 - **Arg-filling benchmark** — correct tool + valid args
 - **Tool output encoding** — TOON/compressed responses, not just schemas
-- **Multi-server registries** — filesystem + git + github combined
+- **Multi-server fixtures** — filesystem + git + github combined
 - End-to-end task slice (small) to test whether selection gains transfer to completion
 
 ## Positioning
