@@ -1,6 +1,6 @@
 {
   "server": "filesystem",
-  "captured_at": "2026-05-31T02:44:01.123887+00:00",
+  "captured_at": "2026-05-31T02:45:45.817598+00:00",
   "command": [
     "npx",
     "-y",
