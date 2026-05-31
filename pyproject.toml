@@ -1,0 +1,22 @@
+[project]
+name = "contextbench-mcp"
+version = "0.1.0"
+description = "Benchmark MCP tool schema serialization vs tool-selection accuracy"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "litellm>=1.60.0",
+    "mcp>=1.6.0",
+    "pyyaml>=6.0.2",
+]
+
+[project.scripts]
+capture-fixture = "scripts.capture_fixture:main"
+run-selection = "scripts.run_selection:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["scripts"]
